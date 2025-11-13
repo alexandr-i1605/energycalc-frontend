@@ -1,0 +1,249 @@
+.homePage {
+  width: 100%;
+  min-height: 720px;
+  background: white;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  display: flex;
+}
+
+.header2 {
+  width: 100%;
+  height: 90px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  overflow: hidden;
+  border-bottom: 2px #F0F0F0 solid;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.searchContainer {
+  width: 600px;
+  height: 48px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #F5F5F5;
+  overflow: hidden;
+  border-radius: 64px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  color: #535353;
+}
+
+.searchInput::placeholder {
+  color: #535353;
+  font-weight: 400;
+}
+
+.searchIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.calcBtn {
+  width: 42px;
+  overflow: visible;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  margin-left: auto;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.calcBtn:hover {
+  opacity: 0.8;
+}
+
+.calcBtnDisabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ellipse {
+  width: 20px;
+  height: 20px;
+  background: #0058A3;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter {
+  color: white;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.energyWindow {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Hero Section */
+.heroSection {
+  width: 100%;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #0058A3 0%, #003366 100%);
+  color: white;
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-family: 'Edu QLD Beginner', cursive;
+}
+
+.heroSubtitle {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.heroButton {
+  background: #FFF600;
+  color: #0058A3;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.heroButton:hover {
+  background: #ffed00;
+  transform: translateY(-2px);
+}
+
+/* Features Section */
+.featuresSection {
+  width: 100%;
+  padding: 80px 20px;
+  background: white;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featureCard {
+  background: #F8F9FA;
+  padding: 30px;
+  border-radius: 15px;
+  border-left: 4px solid #0058A3;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+}
+
+.featureIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #0058A3;
+}
+
+.featureTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #0058A3;
+}
+
+.featureDescription {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .header2 {
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+    padding: 15px 10px;
+  }
+  
+  .searchContainer {
+    position: relative;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .calcBtn {
+    margin: 0 auto;
+  }
+  
+  .heroTitle {
+    font-size: 36px;
+  }
+  
+  .heroSubtitle {
+    font-size: 18px;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchContainer {
+    width: 100%;
+  }
+  
+  .heroTitle {
+    font-size: 28px;
+  }
+}

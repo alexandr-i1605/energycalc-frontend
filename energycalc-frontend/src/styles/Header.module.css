@@ -1,0 +1,75 @@
+.Header {
+    width: 100%;
+    height: 48px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: black;
+    overflow: hidden;
+    justify-content: flex-start;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.homeLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+.HomeBtn {
+    width: 80px;
+    height: 26px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.HomeBtn:hover {
+    opacity: 0.8;
+}
+
+.HomePageIcon {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+    object-fit: contain;
+}
+
+.HomeText {
+    width: 55px;
+    height: 18px;
+    color: white;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+/* Bootstrap Navbar overrides */
+.navbarDark {
+    background: black !important;
+    padding: 0;
+}
+
+.navbarBrand {
+    color: white !important;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.navLink {
+    color: white !important;
+    transition: color 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.navLink:hover {
+    color: #FFF600 !important;
+}

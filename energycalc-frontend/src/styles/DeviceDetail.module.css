@@ -1,0 +1,271 @@
+.deviceDetailContainer {
+  width: 100%;
+  min-height: 672px;
+  background: white;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  padding: 20px;
+}
+
+.deviceContent {
+  width: 700px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Image Section */
+.deviceImageSection {
+  width: 240px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.deviceImage {
+  align-self: stretch;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+/* Info Section */
+.deviceInfoSection {
+  width: 460px;
+  height: 100%;
+  padding: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+}
+
+.deviceCategory {
+  align-self: stretch;
+  height: 18px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.categoryText {
+  width: 100%;
+  height: 18px;
+  color: black;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* Title Section */
+.deviceTitleSection {
+  align-self: stretch;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+  border-bottom: 2px #FFF600 solid;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.deviceTitle {
+  color: #0058A3;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Specifications */
+.deviceSpecs {
+  align-self: stretch;
+  height: 155px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.specItem {
+  width: 450px;
+  overflow: hidden;
+  border-bottom: 2px #F0F0F0 solid;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 100px;
+  padding: 5px 0;
+}
+
+.specLabel {
+  width: 240px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  word-wrap: break-word;
+}
+
+.specValue {
+  width: 120px;
+  min-height: 23px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.valueContent {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.valueNumber {
+  color: black;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.valueUnit {
+  color: #0058A3;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.energyClass {
+  color: #0058A3;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+}
+
+/* Consumption Section */
+.deviceConsumption {
+  width: 450px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.consumptionText {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.consumptionLabel {
+  color: black;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.consumptionValue {
+  color: #0058A3;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+/* Анимации */
+.specItem {
+  transition: border-color 0.3s ease;
+}
+
+.specItem:hover {
+  border-bottom-color: #0058A3;
+}
+
+.deviceTitle {
+  transition: color 0.3s ease;
+}
+
+.deviceTitle:hover {
+  color: #003366;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .deviceDetailContainer {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .deviceContent {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .deviceImageSection {
+    width: 100%;
+    height: auto;
+    align-items: center;
+  }
+  
+  .deviceInfoSection {
+    width: 100%;
+    height: auto;
+  }
+  
+  .specItem {
+    width: 100%;
+    gap: 20px;
+  }
+  
+  .specLabel {
+    width: 60%;
+  }
+  
+  .deviceSpecs {
+    height: auto;
+  }
+  
+  .deviceConsumption {
+    width: 100%;
+  }
+}

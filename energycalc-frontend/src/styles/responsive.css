@@ -1,0 +1,111 @@
+@media (max-width: 1200px) {
+  .cardsRow {
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .card {
+    width: calc(33.333% - 15px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .card {
+    width: calc(50% - 15px);
+  }
+  
+  .searchContainer {
+    max-width: 500px;
+  }
+  
+  .header2 {
+    flex-wrap: nowrap;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardsRow {
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .header2 {
+    flex-wrap: wrap;
+  }
+  
+  .searchContainer {
+    min-width: 150px;
+    max-width: 100%;
+    order: 1;
+  }
+  
+  .calcBtn {
+    order: 2;
+    margin-left: 0;
+  }
+  
+  .deviceContent {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .calculationContent {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .header2 {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 10px;
+  }
+  
+  .searchContainer {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .calcBtn {
+    align-self: flex-end;
+  }
+  
+  .heroTitle {
+    font-size: 28px;
+  }
+  
+  .heroSubtitle {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .cardsRow {
+    justify-content: flex-start;
+  }
+  
+  .card {
+    width: calc(25% - 20px);
+  }
+}
+
+@media (max-width: 350px) {
+  .searchContainer {
+    min-width: 120px;
+  }
+  
+  .searchInput {
+    font-size: 14px;
+  }
+}
