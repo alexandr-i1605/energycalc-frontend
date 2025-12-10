@@ -7,6 +7,10 @@ import DeviceCard from '../components/DeviceCard'
 import { apiClient } from '../api/client'
 import { Device, CartInfo } from '../types'
 import styles from '../styles/DevicesPage.module.css'
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from '../store/store'
+import { setSearch } from '../store/filterSlice'
+
 
 const DevicesPage: FC = () => {
   const [devices, setDevices] = useState<Device[]>([])
@@ -14,7 +18,11 @@ const DevicesPage: FC = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>('')
   const [searchParams, setSearchParams] = useSearchParams()
-  const searchTerm = searchParams.get('search') || ''
+
+  const reduxSearch = useSelector((state: RootState) => state.filters.search)
+  const dispatch = useDispatch()
+  const searchTerm = searchParams.get('search') ?? reduxSearch
+
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const fetchDevices = async (search: string = '') => {
@@ -33,26 +41,21 @@ const DevicesPage: FC = () => {
 
   useEffect(() => {
     fetchDevices(searchTerm)
-    
-    const fetchCartInfo = async () => {
-      const info = await apiClient.getCartInfo()
-      setCartInfo(info)
-    }
-    fetchCartInfo()
   }, [searchTerm])
+
 
   const handleSearchIconClick = () => {
     if (searchInputRef.current) {
       const searchValue = searchInputRef.current.value
+      dispatch(setSearch(searchValue))
       setSearchParams(searchValue ? { search: searchValue } : {})
     }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearchIconClick()
-    }
+    if (e.key === 'Enter') handleSearchIconClick()
   }
+
 
   const handleAddToCalculation = async (deviceId: number) => {
     try {
@@ -79,7 +82,7 @@ const DevicesPage: FC = () => {
         <div className={styles.Header2}>
           <div className={styles.Search}>
             <img 
-              src="/icons/search.svg" 
+              src="/energycalc-frontend/icons/search.svg" 
               alt="Поиск" 
               className={styles.SearchIcon}
               onClick={handleSearchIconClick}
@@ -99,7 +102,7 @@ const DevicesPage: FC = () => {
               to={`/calculation/${cartInfo.draft_request_id}`} 
               className={styles.CalcBtn}
             >
-              <img src="/icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
+              <img src="/energycalc-frontend/icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
               {cartInfo.devices_count > 0 && (
                 <div className={styles.Ellipse1}>
                   <div className={styles.Counter}>{cartInfo.devices_count}</div>
@@ -108,7 +111,7 @@ const DevicesPage: FC = () => {
             </Link>
           ) : (
             <div className={`${styles.CalcBtn} ${styles.CalcBtnDisabled}`}>
-              <img src="/icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
+              <img src="/energycalc-frontend//icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
               {cartInfo.devices_count > 0 && (
                 <div className={styles.Ellipse1}>
                   <div className={styles.Counter}>{cartInfo.devices_count}</div>

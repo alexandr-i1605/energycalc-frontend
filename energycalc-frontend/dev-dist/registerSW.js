@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/energycalc-frontend/dev-sw.js?dev-sw', { scope: '/energycalc-frontend/', type: 'classic' })

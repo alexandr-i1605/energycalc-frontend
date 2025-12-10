@@ -1,0 +1,7 @@
+{
+  "identifier": "default",
+  "description": "Default capabilities for the app",
+  "permissions": [
+    "core:default"
+  ]
+}

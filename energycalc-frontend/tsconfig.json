@@ -19,7 +19,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+
+    "types": [
+      "vite-plugin-pwa/client.d.ts",
+      "vite-plugin-pwa/info.d.ts"
+    ]
   },
   "include": ["src"],
 

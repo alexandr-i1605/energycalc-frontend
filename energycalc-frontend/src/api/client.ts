@@ -98,7 +98,7 @@ export const apiClient = {
     } catch (error) {
       console.warn('Using mock cart info')
       return {
-        draft_request_id: 1,
+        draft_request_id: null,
         devices_count: 0
       }
     }
