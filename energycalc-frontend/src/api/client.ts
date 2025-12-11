@@ -1,6 +1,7 @@
 import { Device, CartInfo } from '../types'
+import { BACKEND_URL } from '../network_config'
 
-const API_BASE = '/api'
+const API_BASE = `${BACKEND_URL}/api`
 
 const MOCK_DEVICES: Device[] = [
   {

@@ -1,4 +1,4 @@
-export const BACKEND_IP = '172.20.10.2'
+export const BACKEND_IP = '192.168.0.5'
 export const BACKEND_PORT = 8000
 export const USE_HTTPS = true
 
