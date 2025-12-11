@@ -6,7 +6,7 @@
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
-    "devUrl": "https://localhost:5173/energycalc-frontend/",
+    "devUrl": "https://192.168.0.5:5173/energycalc-frontend/",
     "frontendDist": "../dist"
   },
   "app": {
