@@ -4,6 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import fs from 'fs'
 import path from 'path'
 import mkcert from 'vite-plugin-mkcert'
+import { BACKEND_URL } from './src/network_config'
 
 export default defineConfig({
   base: '/energycalc-frontend/',
@@ -47,13 +48,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8000',
+        target: BACKEND_URL,
         changeOrigin: true,
       },
       '/img-proxy': {
-      target: 'http://localhost:9000',
-      changeOrigin: true,
-    },
+        target: 'http://localhost:9000',
+        changeOrigin: true,
+      },
     },
   },
 })
