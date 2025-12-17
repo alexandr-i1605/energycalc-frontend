@@ -1,14 +1,8 @@
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import styles from '../styles/HomePage.module.css'
 
 const HomePage: FC = () => {
-  const navigate = useNavigate()
-
-  const handleStartCalculation = () => {
-    navigate('/devices')
-  }
 
   return (
     <>
@@ -20,12 +14,6 @@ const HomePage: FC = () => {
           <p className={styles.heroSubtitle}>
             Умный калькулятор для расчета энергопотребления ваших устройств
           </p>
-          <button 
-            className={styles.heroButton}
-            onClick={handleStartCalculation}
-          >
-            Начать расчет
-          </button>
         </div>
 
         {/* Features Section */}
