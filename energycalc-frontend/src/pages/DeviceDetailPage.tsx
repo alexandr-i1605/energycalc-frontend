@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { apiClient } from '../api/client'
 import styles from '../styles/DeviceDetail.module.css'
+import { getProxyImageUrl } from '../utils/imageUrl'
 
 const DeviceDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -72,7 +73,7 @@ const DeviceDetailPage: FC = () => {
           <div className={styles.deviceContent}>
             <div className={styles.deviceImageSection}>
               <img 
-                src={device.image_url || '/default-device.jpg'} 
+                src={getProxyImageUrl(device.image_url)} 
                 alt={device.name}
                 className={styles.deviceImage}
                 onError={(e) => {
