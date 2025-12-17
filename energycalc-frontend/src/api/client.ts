@@ -53,7 +53,7 @@ export const apiClient = {
       const response = await fetch(`${getApiBaseUrl()}/devices?${params}`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
-    } catch (error) {
+    } catch {
       console.warn('Using mock devices data')
 
       if (search) {
@@ -70,7 +70,7 @@ export const apiClient = {
       const response = await fetch(`${getApiBaseUrl()}/devices/${id}/`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
-    } catch (error) {
+    } catch {
       console.warn('Using mock device data')
       const device = MOCK_DEVICES.find(d => d.id === id)
       if (!device) throw new Error('Device not found')
@@ -87,7 +87,7 @@ export const apiClient = {
         },
       })
       if (!response.ok) throw new Error('Network error')
-    } catch (error) {
+    } catch {
       console.warn('Mock: Device added to request')
     }
   },
@@ -97,7 +97,7 @@ export const apiClient = {
       const response = await fetch(`${getApiBaseUrl()}/consumption-calc/cart_icon/`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
-    } catch (error) {
+    } catch {
       console.warn('Using mock cart info')
       return {
         draft_request_id: null,

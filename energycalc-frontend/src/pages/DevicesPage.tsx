@@ -1,60 +1,37 @@
-import { FC, useState, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { Container, Spinner, Alert } from 'react-bootstrap'
 import { useSearchParams, Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '../store/store'
+import { setSearch } from '../store/filterSlice'
+import { getDevicesAsync } from '../store/deviceSlice'
+import { getCartInfoAsync, addDeviceToRequestAsync } from '../store/requestSlice'
 import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
 import DeviceCard from '../components/DeviceCard'
-import { apiClient } from '../api/client'
-import { Device, CartInfo } from '../types'
 import styles from '../styles/DevicesPage.module.css'
-import { useSelector, useDispatch } from 'react-redux'
-import type { RootState } from '../store/store'
-import { setSearch } from '../store/filterSlice'
-
 
 const DevicesPage: FC = () => {
-  const [devices, setDevices] = useState<Device[]>([])
-  const [cartInfo, setCartInfo] = useState<CartInfo>({ draft_request_id: null, devices_count: 0 })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string>('')
+  const dispatch = useDispatch<AppDispatch>()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const reduxSearch = useSelector((state: RootState) => state.filters.search)
-  const dispatch = useDispatch()
-  const searchTerm = searchParams.get('search') ?? reduxSearch
+  const { devices, loading, error } = useSelector((state: RootState) => state.device)
+  const { cartInfo } = useSelector((state: RootState) => state.request)
+  const { isAuthenticated } = useSelector((state: RootState) => state.user)
 
+  const searchTerm = searchParams.get('search') ?? reduxSearch
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const fetchDevices = async (search: string = '') => {
-    setLoading(true)
-    setError('')
-    try {
-      const data = await apiClient.getDevices(search)
-      setDevices(data)
-    } catch (err) {
-      setError('Ошибка при загрузке устройств')
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  useEffect(() => {
+    dispatch(getDevicesAsync(searchTerm || undefined))
+  }, [dispatch, searchTerm])
 
   useEffect(() => {
-    fetchDevices(searchTerm)
-  }, [searchTerm])
-
-  useEffect(() => {
-    const fetchCartInfo = async () => {
-      try {
-        const info = await apiClient.getCartInfo()
-        setCartInfo(info)
-      } catch (err) {
-        console.error('Failed to fetch cart info:', err)
-      }
+    if (isAuthenticated) {
+      dispatch(getCartInfoAsync())
     }
-    fetchCartInfo()
-  }, [])
-
+  }, [dispatch, isAuthenticated])
 
   const handleSearchIconClick = () => {
     if (searchInputRef.current) {
@@ -68,53 +45,47 @@ const DevicesPage: FC = () => {
     if (e.key === 'Enter') handleSearchIconClick()
   }
 
-
   const handleAddToCalculation = async (deviceId: number) => {
-    try {
-      await apiClient.addDeviceToRequest(deviceId)
-      //alert('Устройство добавлено в расчет')
-      // Обновляем информацию о корзине
-      const info = await apiClient.getCartInfo()
-      setCartInfo(info)
-    } catch (err) {
-      alert('Ошибка при добавлении устройства')
-      console.error(err)
+    await dispatch(addDeviceToRequestAsync(deviceId))
+    if (isAuthenticated) {
+      dispatch(getCartInfoAsync())
     }
   }
 
-  const isCartActive = cartInfo.draft_request_id !== null
+  const isCartActive = isAuthenticated && cartInfo.draft_request_id !== null
 
   return (
     <>
       <Header />
       <Container>
         <Breadcrumbs crumbs={[{ label: 'Устройства' }]} />
-        
+
         {/* Header с поиском и корзиной */}
         <div className={styles.Header2}>
           <div className={styles.Search}>
-            <img 
-              src="/energycalc-frontend/icons/search.svg" 
-              alt="Поиск" 
+            <img
+              src="/energycalc-frontend/icons/search.svg"
+              alt="Поиск"
               className={styles.SearchIcon}
               onClick={handleSearchIconClick}
             />
-            <input 
+            <input
               ref={searchInputRef}
               type="text"
               defaultValue={searchTerm}
-              placeholder="Найти устройство" 
+              placeholder="Найти устройство"
               className={styles.SearchInput}
               onKeyPress={handleKeyPress}
             />
           </div>
-          
+
           {isCartActive && cartInfo.draft_request_id ? (
-            <Link 
-              to={`/calculation/${cartInfo.draft_request_id}`} 
-              className={styles.CalcBtn}
-            >
-              <img src="/energycalc-frontend/icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
+            <Link to={`/calculation/${cartInfo.draft_request_id}`} className={styles.CalcBtn}>
+              <img
+                src="/energycalc-frontend/icons/bolt.svg"
+                alt="Энергия"
+                className={styles.EnergyWindow}
+              />
               {cartInfo.devices_count > 0 && (
                 <div className={styles.Ellipse1}>
                   <div className={styles.Counter}>{cartInfo.devices_count}</div>
@@ -123,7 +94,11 @@ const DevicesPage: FC = () => {
             </Link>
           ) : (
             <div className={`${styles.CalcBtn} ${styles.CalcBtnDisabled}`}>
-              <img src="/energycalc-frontend//icons/bolt.svg" alt="Энергия" className={styles.EnergyWindow} />
+              <img
+                src="/energycalc-frontend/icons/bolt.svg"
+                alt="Энергия"
+                className={styles.EnergyWindow}
+              />
               {cartInfo.devices_count > 0 && (
                 <div className={styles.Ellipse1}>
                   <div className={styles.Counter}>{cartInfo.devices_count}</div>
@@ -143,11 +118,11 @@ const DevicesPage: FC = () => {
           <div className={styles.Cards}>
             <div className={styles.CardStroke}>
               {devices.map((device) => (
-                <DeviceCard 
+                <DeviceCard
                   key={device.id}
-                  device={device} 
+                  device={device}
                   onAddToCalculation={handleAddToCalculation}
-                  isAuthenticated={isCartActive}
+                  isAuthenticated={isAuthenticated}
                 />
               ))}
             </div>
@@ -155,9 +130,7 @@ const DevicesPage: FC = () => {
         )}
 
         {!loading && devices.length === 0 && (
-          <Alert variant="info">
-            Устройства не найдены.
-          </Alert>
+          <Alert variant="info">Устройства не найдены.</Alert>
         )}
       </Container>
     </>

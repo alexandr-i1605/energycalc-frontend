@@ -50,6 +50,27 @@ export default defineConfig({
       '/api': {
         target: BACKEND_URL,
         changeOrigin: true,
+        secure: false,
+        cookieDomainRewrite: '',
+        cookiePathRewrite: '/',
+        configure: (proxy) => {
+          proxy.on('proxyRes', (proxyRes) => {
+            const setCookieHeaders = proxyRes.headers['set-cookie']
+            if (setCookieHeaders) {
+              const modified = setCookieHeaders.map((cookie: string) => {
+                let result = cookie.replace(/;\s*[Dd]omain=[^;]*/gi, '')
+                const isDeletion = result.includes('Max-Age=0') || result.includes('expires=Thu, 01 Jan 1970')
+                if (!isDeletion) {
+                  result = result.replace(/;\s*[Pp]ath=[^;]*/gi, '')
+                  result = result.replace(/;\s*[Ss]ame[Ss]ite=[^;]*/gi, '')
+                  result += '; Path=/; SameSite=Lax'
+                }
+                return result
+              })
+              proxyRes.headers['set-cookie'] = modified
+            }
+          })
+        },
       },
       '/img-proxy': {
         target: `http://${BACKEND_IP}:9000`,

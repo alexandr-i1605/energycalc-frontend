@@ -22,11 +22,25 @@ export interface CalculationRequest {
   completion_datetime?: string
   client_username: string
   moderator_username?: string
+  devices_count?: number
 }
 
 export interface DeviceInRequest {
   device: Device
   quantity: number
+}
+
+export interface User {
+  id: number
+  username: string
+  first_name?: string
+  last_name?: string
+  email?: string
+  is_moderator: boolean
+}
+
+export interface RequestDetailResponse extends CalculationRequest {
+  devices: DeviceInRequest[]
 }
 
 export interface CartInfo {
