@@ -43,6 +43,18 @@ const DevicesPage: FC = () => {
     fetchDevices(searchTerm)
   }, [searchTerm])
 
+  useEffect(() => {
+    const fetchCartInfo = async () => {
+      try {
+        const info = await apiClient.getCartInfo()
+        setCartInfo(info)
+      } catch (err) {
+        console.error('Failed to fetch cart info:', err)
+      }
+    }
+    fetchCartInfo()
+  }, [])
+
 
   const handleSearchIconClick = () => {
     if (searchInputRef.current) {
@@ -135,6 +147,7 @@ const DevicesPage: FC = () => {
                   key={device.id}
                   device={device} 
                   onAddToCalculation={handleAddToCalculation}
+                  isAuthenticated={isCartActive}
                 />
               ))}
             </div>

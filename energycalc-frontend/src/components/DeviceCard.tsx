@@ -7,9 +7,10 @@ import { getProxyImageUrl } from '../utils/imageUrl'
 interface DeviceCardProps {
   device: Device
   onAddToCalculation: (deviceId: number) => void
+  isAuthenticated?: boolean
 }
 
-const DeviceCard: FC<DeviceCardProps> = ({ device, onAddToCalculation }) => {
+const DeviceCard: FC<DeviceCardProps> = ({ device, onAddToCalculation, isAuthenticated = false }) => {
   return (
     <div className={styles.Card}>
       <div className={styles.CardImage}>
@@ -50,12 +51,14 @@ const DeviceCard: FC<DeviceCardProps> = ({ device, onAddToCalculation }) => {
           <div className={styles.ButtonText}>Подробнее</div>
         </Link>
         
-        <button 
-          className={styles.CardButton}
-          onClick={() => onAddToCalculation(device.id)}
-        >
-          <div className={styles.ButtonText}>Добавить</div>
-        </button>
+        {isAuthenticated && (
+          <button 
+            className={styles.CardButton}
+            onClick={() => onAddToCalculation(device.id)}
+          >
+            <div className={styles.ButtonText}>Добавить</div>
+          </button>
+        )}
       </div>
     </div>
   )
