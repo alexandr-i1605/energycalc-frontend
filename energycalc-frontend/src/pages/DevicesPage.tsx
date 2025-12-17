@@ -80,7 +80,7 @@ const DevicesPage: FC = () => {
           </div>
 
           {isCartActive && cartInfo.draft_request_id ? (
-            <Link to={`/calculation/${cartInfo.draft_request_id}`} className={styles.CalcBtn}>
+            <Link to={`/consumption-calculation/${cartInfo.draft_request_id}`} className={styles.CalcBtn}>
               <img
                 src="/energycalc-frontend/icons/bolt.svg"
                 alt="Энергия"

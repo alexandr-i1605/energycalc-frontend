@@ -52,7 +52,7 @@ const Header: FC = () => {
                 {cartInfo.draft_request_id && (
                   <Nav.Link
                     as={Link}
-                    to={`/calculation/${cartInfo.draft_request_id}`}
+                    to={`/consumption-calculation/${cartInfo.draft_request_id}`}
                     className={styles.navLink}
                   >
                     Расчет{' '}

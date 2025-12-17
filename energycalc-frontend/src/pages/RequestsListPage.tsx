@@ -41,7 +41,7 @@ const RequestsListPage: React.FC = () => {
   }, [dispatch, isAuthenticated, navigate, statusFilter, dateStart, dateEnd])
 
   const handleCardClick = (requestId: number) => {
-    navigate(`/calculation/${requestId}`)
+    navigate(`/consumption-calculation/${requestId}`)
   }
 
   const handleClearFilters = () => {
