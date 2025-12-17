@@ -1,0 +1,163 @@
+.Cards {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 1280px;
+    padding: 0 10px;
+}
+
+.CardStroke {
+    width: 100%;
+    padding: 5px 0;
+    overflow: hidden;
+    border-bottom: 2px #F5F5F5 solid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.Card {
+    width: calc(25% - 9px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.Card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.CardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.CardTitle {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.TitleText {
+    color: #000;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.StatusBadge {
+    margin-left: 10px;
+}
+
+.CardSpecs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.SpecItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.SpecLabel {
+    color: #666;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.SpecValue {
+    color: #000;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.ResultBlock {
+    padding: 15px;
+    background: #d4edda;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.ResultLabel {
+    color: #155724;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.ResultValue {
+    color: #155724;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.CardFooter {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #e9ecef;
+}
+
+.DateText {
+    color: #666;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .Card {
+        width: calc(33.333% - 9px);
+    }
+}
+
+@media (max-width: 900px) {
+    .Card {
+        width: calc(50% - 9px);
+    }
+}
+
+@media (max-width: 576px) {
+    .Card {
+        width: 100%;
+    }
+
+    .CardStroke {
+        justify-content: center;
+    }
+}
+
