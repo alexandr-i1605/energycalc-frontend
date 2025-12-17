@@ -1,7 +1,8 @@
 import { Device, CartInfo } from '../types'
-import { dest_api } from '../target_config'
+import { getApiBaseUrl } from '../target_config'
 
-const API_BASE = dest_api
+// Используем функцию для динамического определения API URL в зависимости от окружения
+// Это необходимо, чтобы на GitHub Pages использовался прямой URL к локальному бэкенду
 
 const MOCK_DEVICES: Device[] = [
   {
@@ -49,7 +50,7 @@ export const apiClient = {
       const params = new URLSearchParams()
       if (search) params.append('name', search)
       
-      const response = await fetch(`${API_BASE}/devices?${params}`)
+      const response = await fetch(`${getApiBaseUrl()}/devices?${params}`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
     } catch (error) {
@@ -66,7 +67,7 @@ export const apiClient = {
 
   async getDeviceById(id: number): Promise<Device> {
     try {
-      const response = await fetch(`${API_BASE}/devices/${id}/`)
+      const response = await fetch(`${getApiBaseUrl()}/devices/${id}/`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
     } catch (error) {
@@ -79,7 +80,7 @@ export const apiClient = {
 
   async addDeviceToRequest(deviceId: number): Promise<void> {
     try {
-      const response = await fetch(`${API_BASE}/devices/${deviceId}/add_to_request/`, {
+      const response = await fetch(`${getApiBaseUrl()}/devices/${deviceId}/add_to_request/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ export const apiClient = {
 
   async getCartInfo(): Promise<CartInfo> {
     try {
-      const response = await fetch(`${API_BASE}/consumption-calc/cart_icon/`)
+      const response = await fetch(`${getApiBaseUrl()}/consumption-calc/cart_icon/`)
       if (!response.ok) throw new Error('Network error')
       return await response.json()
     } catch (error) {
