@@ -23,7 +23,7 @@
 }
 
 .Card {
-    width: calc(25% - 9px);
+    width: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -138,26 +138,5 @@
     text-align: center;
 }
 
-/* Адаптивность */
-@media (max-width: 1200px) {
-    .Card {
-        width: calc(33.333% - 9px);
-    }
-}
-
-@media (max-width: 900px) {
-    .Card {
-        width: calc(50% - 9px);
-    }
-}
-
-@media (max-width: 576px) {
-    .Card {
-        width: 100%;
-    }
-
-    .CardStroke {
-        justify-content: center;
-    }
-}
+/* Адаптивность - карточки всегда на всю ширину */
 
