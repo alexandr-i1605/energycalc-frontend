@@ -148,6 +148,22 @@ export const deleteDeviceFromRequestAsync = createAsyncThunk(
   }
 )
 
+// Изменение статуса заявки (для модератора)
+export const updateRequestStatusAsync = createAsyncThunk(
+  'request/updateRequestStatusAsync',
+  async (
+    { requestId, newStatus }: { requestId: number; newStatus: 'COMPLETED' | 'REJECTED' },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await apiClient.updateRequestStatus(requestId, newStatus)
+      return response
+    } catch {
+      return rejectWithValue('Ошибка при изменении статуса заявки')
+    }
+  }
+)
+
 const requestSlice = createSlice({
   name: 'request',
   initialState,
@@ -175,12 +191,30 @@ const requestSlice = createSlice({
       })
       // Получение списка заявок
       .addCase(getRequestsAsync.pending, (state) => {
-        state.loading = true
+        if (state.requests.length === 0) {
+          state.loading = true
+        }
         state.error = null
       })
       .addCase(getRequestsAsync.fulfilled, (state, action) => {
         state.loading = false
-        state.requests = action.payload
+        const newRequests = action.payload
+        const oldRequestsMap = new Map(state.requests.map(req => [req.id, req]))
+        
+        const hasChanges = state.requests.length !== newRequests.length ||
+          newRequests.some((newReq) => {
+            const oldReq = oldRequestsMap.get(newReq.id)
+            if (!oldReq) return true // Новая заявка
+            return oldReq.status !== newReq.status ||
+                   oldReq.result !== newReq.result ||
+                   oldReq.completion_datetime !== newReq.completion_datetime ||
+                   oldReq.formation_datetime !== newReq.formation_datetime ||
+                   oldReq.moderator_username !== newReq.moderator_username
+          })
+        
+        if (hasChanges) {
+          state.requests = newRequests
+        }
       })
       .addCase(getRequestsAsync.rejected, (state, action) => {
         state.loading = false
@@ -239,6 +273,15 @@ const requestSlice = createSlice({
         state.devices = []
         state.cartInfo = { draft_request_id: null, devices_count: 0 }
         state.isDraft = false
+      })
+      .addCase(updateRequestStatusAsync.fulfilled, (state, action) => {
+        const index = state.requests.findIndex((r) => r.id === action.payload.id)
+        if (index !== -1) {
+          state.requests[index] = action.payload
+        }
+        if (state.currentRequest && state.currentRequest.id === action.payload.id) {
+          state.currentRequest = action.payload
+        }
       })
   },
 })

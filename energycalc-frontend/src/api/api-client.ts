@@ -198,5 +198,26 @@ export const apiClient = {
     })
     return {}
   },
+
+  async updateRequestStatus(requestId: number, newStatus: 'COMPLETED' | 'REJECTED') {
+    const sessionId = localStorage.getItem('session_id')
+    
+    const response = await fetch(`/api/consumption-calc/${requestId}/status/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(sessionId ? { 'X-Session-ID': sessionId } : {}),
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      const errorMessage = errorData.error || `Ошибка ${response.status}: Ошибка при изменении статуса заявки`
+      throw new Error(errorMessage)
+    }
+    
+    return await this.getRequestById(requestId)
+  },
 }
 

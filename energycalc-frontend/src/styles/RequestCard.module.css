@@ -16,7 +16,7 @@
     overflow: hidden;
     border-bottom: 2px #F5F5F5 solid;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
     gap: 12px;
@@ -137,6 +137,3 @@
     font-weight: 400;
     text-align: center;
 }
-
-/* Адаптивность - карточки всегда на всю ширину */
-

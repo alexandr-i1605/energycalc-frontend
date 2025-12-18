@@ -1,44 +1,75 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Container, Spinner, Alert, Form, Row, Col, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../store/store'
-import { getRequestsAsync } from '../store/requestSlice'
+import { getRequestsAsync, updateRequestStatusAsync } from '../store/requestSlice'
 import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
 import RequestCard from '../components/RequestCard'
 import styles from '../styles/RequestCard.module.css'
+
+// Функция для получения текущей даты в формате YYYY-MM-DD
+const getCurrentDate = () => {
+  const today = new Date()
+  return today.toISOString().split('T')[0]
+}
 
 const RequestsListPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
   const { requests, loading, error } = useSelector((state: RootState) => state.request)
-  const { isAuthenticated } = useSelector((state: RootState) => state.user)
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.user)
+  const isModerator = user?.is_moderator || false
 
   const [statusFilter, setStatusFilter] = useState<string>('')
-  const [dateStart, setDateStart] = useState<string>('')
-  const [dateEnd, setDateEnd] = useState<string>('')
+  const [dateStart, setDateStart] = useState<string>(getCurrentDate())
+  const [dateEnd, setDateEnd] = useState<string>(getCurrentDate())
+  const [clientFilter, setClientFilter] = useState<string>('')
+  const pollingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const uniqueClients = React.useMemo(() => {
+    if (!isModerator) return []
+    const clients = new Set(requests.map(r => r.client_username).filter(Boolean))
+    return Array.from(clients).sort()
+  }, [requests, isModerator])
+
+  const loadRequests = React.useCallback(() => {
+    const filters: { status?: string; date_start?: string; date_end?: string } = {}
+    if (statusFilter) filters.status = statusFilter
+
+    if (dateStart) {
+
+      filters.date_start = `${dateStart}T00:00:00`
+    }
+    if (dateEnd) {
+      filters.date_end = `${dateEnd}T23:59:59`
+    }
+    dispatch(getRequestsAsync(filters))
+  }, [dispatch, statusFilter, dateStart, dateEnd])
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login')
       return
     }
-    // Загружаем заявки с фильтрами
-    const filters: { status?: string; date_start?: string; date_end?: string } = {}
-    if (statusFilter) filters.status = statusFilter
-    // Преобразуем даты из формата YYYY-MM-DD в ISO datetime формат для бэкенда
-    if (dateStart) {
-      // Добавляем время начала дня (00:00:00)
-      filters.date_start = `${dateStart}T00:00:00`
+    loadRequests()
+  }, [dispatch, isAuthenticated, navigate, loadRequests])
+  useEffect(() => {
+    if (!isAuthenticated || !isModerator) return
+
+    pollingIntervalRef.current = setInterval(() => {
+      loadRequests()
+    }, 5000)
+
+    return () => {
+      if (pollingIntervalRef.current) {
+        clearInterval(pollingIntervalRef.current)
+        pollingIntervalRef.current = null
+      }
     }
-    if (dateEnd) {
-      // Добавляем время конца дня (23:59:59)
-      filters.date_end = `${dateEnd}T23:59:59`
-    }
-    dispatch(getRequestsAsync(Object.keys(filters).length > 0 ? filters : undefined))
-  }, [dispatch, isAuthenticated, navigate, statusFilter, dateStart, dateEnd])
+  }, [isAuthenticated, isModerator, loadRequests])
 
   const handleCardClick = (requestId: number) => {
     navigate(`/consumption-calculation/${requestId}`)
@@ -46,23 +77,38 @@ const RequestsListPage: React.FC = () => {
 
   const handleClearFilters = () => {
     setStatusFilter('')
-    setDateStart('')
-    setDateEnd('')
+    setDateStart(getCurrentDate())
+    setDateEnd(getCurrentDate())
+    setClientFilter('')
   }
+
+  const handleStatusChange = async (requestId: number, newStatus: 'COMPLETED' | 'REJECTED') => {
+    try {
+      await dispatch(updateRequestStatusAsync({ requestId, newStatus })).unwrap()
+      loadRequests()
+    } catch (error) {
+      console.error('Error updating request status:', error)
+    }
+  }
+
+  const filteredRequests = React.useMemo(() => {
+    if (!isModerator || !clientFilter) return requests
+    return requests.filter(r => r.client_username === clientFilter)
+  }, [requests, clientFilter, isModerator])
 
   return (
     <>
       <Header />
       <Container>
         <Breadcrumbs crumbs={[{ label: 'Заявки' }]} />
-        <h1 style={{ marginBottom: '30px' }}>Мои заявки</h1>
+        <h1 style={{ marginBottom: '30px' }}>{isModerator ? 'Все заявки' : 'Мои заявки'}</h1>
 
         {/* Форма фильтрации */}
         <div style={{ marginBottom: '30px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
           <h5 style={{ marginBottom: '20px' }}>Фильтры</h5>
           <Form>
             <Row className="mb-3">
-              <Col md={3}>
+              <Col md={isModerator ? 2 : 3}>
                 <Form.Group>
                   <Form.Label>Статус</Form.Label>
                   <Form.Select
@@ -74,11 +120,28 @@ const RequestsListPage: React.FC = () => {
                     <option value="FORMED">Сформирована</option>
                     <option value="COMPLETED">Завершена</option>
                     <option value="REJECTED">Отклонена</option>
-                    <option value="DELETED">Удалена</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col md={3}>
+              {isModerator && (
+                <Col md={2}>
+                  <Form.Group>
+                    <Form.Label>Создатель</Form.Label>
+                    <Form.Select
+                      value={clientFilter}
+                      onChange={(e) => setClientFilter(e.target.value)}
+                    >
+                      <option value="">Все создатели</option>
+                      {uniqueClients.map((client) => (
+                        <option key={client} value={client}>
+                          {client}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+              )}
+              <Col md={isModerator ? 2 : 3}>
                 <Form.Group>
                   <Form.Label>Дата начала</Form.Label>
                   <Form.Control
@@ -88,7 +151,7 @@ const RequestsListPage: React.FC = () => {
                   />
                 </Form.Group>
               </Col>
-              <Col md={3}>
+              <Col md={isModerator ? 2 : 3}>
                 <Form.Group>
                   <Form.Label>Дата окончания</Form.Label>
                   <Form.Control
@@ -99,7 +162,7 @@ const RequestsListPage: React.FC = () => {
                   />
                 </Form.Group>
               </Col>
-              <Col md={3} className="d-flex align-items-end">
+              <Col md={isModerator ? 4 : 3} className="d-flex align-items-end">
                 <Button
                   variant="outline-secondary"
                   onClick={handleClearFilters}
@@ -121,17 +184,42 @@ const RequestsListPage: React.FC = () => {
         ) : (
           <div className={styles.Cards}>
             <div className={styles.CardStroke}>
-              {requests.length === 0 ? (
+              {filteredRequests.length === 0 ? (
                 <Alert variant="info" style={{ width: '100%', marginTop: '20px' }}>
                   Заявки не найдены
                 </Alert>
               ) : (
-                requests.map((request) => (
-                  <RequestCard
-                    key={request.id}
-                    request={request}
-                    onClick={() => handleCardClick(request.id)}
-                  />
+                filteredRequests.map((request) => (
+                  <div key={request.id} style={{ marginBottom: '20px' }}>
+                    <RequestCard
+                      request={request}
+                      onClick={() => handleCardClick(request.id)}
+                    />
+                    {isModerator && request.status === 'FORMED' && (
+                      <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleStatusChange(request.id, 'COMPLETED')
+                          }}
+                        >
+                          Одобрить
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleStatusChange(request.id, 'REJECTED')
+                          }}
+                        >
+                          Отклонить
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 ))
               )}
             </div>
