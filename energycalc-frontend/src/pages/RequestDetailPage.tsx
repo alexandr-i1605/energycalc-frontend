@@ -101,21 +101,17 @@ const RequestDetailPage: React.FC = () => {
 
   const handleDelete = async () => {
     if (!id) return
-    if (window.confirm('Вы уверены, что хотите удалить эту заявку?')) {
-      const result = await dispatch(deleteRequestAsync(Number(id)))
-      if (deleteRequestAsync.fulfilled.match(result)) {
-        navigate('/requests')
-      }
+    const result = await dispatch(deleteRequestAsync(Number(id)))
+    if (deleteRequestAsync.fulfilled.match(result)) {
+      navigate('/requests')
     }
   }
 
   const handleForm = async () => {
     if (!id) return
-    if (window.confirm('Подтвердить формирование заявки?')) {
-      const result = await dispatch(formRequestAsync(Number(id)))
-      if (formRequestAsync.fulfilled.match(result)) {
-        dispatch(getRequestByIdAsync(Number(id)))
-      }
+    const result = await dispatch(formRequestAsync(Number(id)))
+    if (formRequestAsync.fulfilled.match(result)) {
+      dispatch(getRequestByIdAsync(Number(id)))
     }
   }
 
