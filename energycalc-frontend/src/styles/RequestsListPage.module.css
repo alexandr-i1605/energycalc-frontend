@@ -1,0 +1,143 @@
+.requestsContainer {
+  width: 100%;
+  min-height: 720px;
+  background: white;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  display: flex;
+}
+
+.requestsContent {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-inline-start: 0.5%;
+  margin-inline-end: 0.5%;
+  padding: 20px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  padding: 5px 0;
+  border-bottom: 2px #FFF600 solid;
+}
+
+.titleContent {
+  color: #0058A3;
+  font-size: 26px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  padding: 0 15px;
+}
+
+.filtersCard {
+  padding: 15px;
+  background: #F3F3F3;
+  border-radius: 15px;
+  border-left: 3px #00559D solid;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filtersHeader {
+  padding: 0 15px;
+}
+
+.filtersTitle {
+  color: black;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.filtersRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.filterLabel {
+  color: black;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.filterInput {
+  width: 100%;
+  height: 36px;
+  padding: 4px 12px;
+  background: white;
+  border: 1px solid #B8B8B8;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  color: black;
+}
+
+.filterInput:focus {
+  outline: none;
+  border-color: #0058A3;
+}
+
+.filterButton {
+  padding: 10px 20px;
+  background: #0058A3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  height: 36px;
+  white-space: nowrap;
+}
+
+.filterButton:hover {
+  background: #004080;
+}
+
+.requestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .requestsContent {
+    padding: 10px;
+  }
+  
+  .filtersRow {
+    flex-direction: column;
+  }
+  
+  .filterGroup {
+    width: 100%;
+  }
+}
+

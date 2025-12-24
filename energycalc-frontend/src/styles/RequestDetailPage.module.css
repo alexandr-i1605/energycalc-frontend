@@ -1,0 +1,75 @@
+.calculationContainer {
+  width: 100%;
+  min-height: 720px;
+  background: white;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  display: flex;
+}
+
+.calculationContent {
+  flex-direction: row;
+  flex: 2;
+  display: flex;
+  gap: 10px;
+  margin-inline-start: 0.5%;
+  margin-inline-end: 0.5%;
+  padding: 20px;
+}
+
+.mainSection {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  padding: 5px 0;
+  border-bottom: 2px #FFF600 solid;
+}
+
+.titleContent {
+  color: #0058A3;
+  font-size: 26px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  padding: 0 15px;
+}
+
+/* Devices Section */
+.devicesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.devicesList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .calculationContent {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .calculationContent {
+    padding: 10px;
+  }
+}
+

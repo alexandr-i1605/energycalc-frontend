@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Button, Spinner, Alert, Form, Table, Badge } from 'react-bootstrap'
+import { Spinner, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../store/store'
@@ -14,8 +14,10 @@ import {
   setError,
 } from '../store/requestSlice'
 import Header from '../components/Header'
-import Breadcrumbs from '../components/Breadcrumbs'
-import { getProxyImageUrl, getDefaultImageUrl } from '../utils/imageUrl'
+import ParameterCard from '../components/ParameterCard'
+import AddedDeviceCard from '../components/AddedDeviceCard'
+import ResultCard from '../components/ResultCard'
+import styles from '../styles/RequestDetailPage.module.css'
 
 const RequestDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -135,33 +137,15 @@ const RequestDetailPage: React.FC = () => {
     }
   }
 
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      DRAFT: 'secondary',
-      FORMED: 'primary',
-      COMPLETED: 'success',
-      REJECTED: 'danger',
-      DELETED: 'dark',
-    }
-    const labels: Record<string, string> = {
-      DRAFT: 'Черновик',
-      FORMED: 'Сформирована',
-      COMPLETED: 'Завершена',
-      REJECTED: 'Отклонена',
-      DELETED: 'Удалена',
-    }
-    return <Badge bg={variants[status]}>{labels[status]}</Badge>
-  }
-
   if (loading && !currentRequest) {
     return (
       <>
         <Header />
-        <Container>
-          <div className="text-center" style={{ marginTop: '100px' }}>
+        <div className={styles.calculationContainer}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
             <Spinner animation="border" />
           </div>
-        </Container>
+        </div>
       </>
     )
   }
@@ -170,9 +154,11 @@ const RequestDetailPage: React.FC = () => {
     return (
       <>
         <Header />
-        <Container>
-          <Alert variant="warning">Заявка не найдена</Alert>
-        </Container>
+        <div className={styles.calculationContainer}>
+          <div className={styles.calculationContent}>
+            <Alert variant="warning">Заявка не найдена</Alert>
+          </div>
+        </div>
       </>
     )
   }
@@ -180,199 +166,107 @@ const RequestDetailPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Container>
-        <Breadcrumbs crumbs={[{ label: 'Заявки', path: '/requests' }, { label: `Заявка #${id}` }]} />
-        <h1 style={{ marginBottom: '30px' }}>
-          Заявка #{currentRequest.id} {getStatusBadge(currentRequest.status)}
-        </h1>
-
+      <div className={styles.calculationContainer}>
         {error && (
-          <Alert variant="danger" onClose={() => dispatch(setError(null))} dismissible>
+          <Alert variant="danger" onClose={() => dispatch(setError(null))} dismissible style={{ margin: '10px' }}>
             {error}
           </Alert>
         )}
 
-        <div style={{ marginBottom: '30px' }}>
-          {isDraft ? (
-            <div>
-              <Form.Group className="mb-3">
-                <Form.Label>Количество жильцов</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={residents}
-                  onChange={(e) => setResidents(Number(e.target.value))}
-                  min="1"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Температура (°C)</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={temperature}
-                  onChange={(e) => setTemperature(Number(e.target.value))}
-                  min="-50"
-                  max="50"
-                />
-              </Form.Group>
-              <Button variant="primary" onClick={handleSave} className="me-2">
-                Сохранить
-              </Button>
-              <Button variant="success" onClick={handleForm} className="me-2">
-                Сформировать
-              </Button>
-              <Button variant="danger" onClick={handleDelete}>
-                Удалить
-              </Button>
+        <div className={styles.calculationContent}>
+          <div className={styles.mainSection}>
+            <div className={styles.sectionTitle}>
+              <div className={styles.titleContent}>
+                Моя заявка на расчет #{currentRequest.id}
+              </div>
             </div>
-          ) : (
-            <div>
-              <p>
-                <strong>Количество жильцов:</strong> {currentRequest.residents}
-              </p>
-              <p>
-                <strong>Температура:</strong> {currentRequest.temperature}°C
-              </p>
-              {currentRequest.status === 'COMPLETED' && currentRequest.result > 0 && (
-                <div
-                  style={{
-                    padding: '20px',
-                    backgroundColor: '#d4edda',
-                    border: '2px solid #28a745',
-                    borderRadius: '8px',
-                    marginTop: '15px',
-                    marginBottom: '15px',
-                  }}
-                >
-                  <h4 style={{ color: '#155724', marginBottom: '10px' }}>
-                    Результат расчета энергопотребления
-                  </h4>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#155724', margin: 0 }}>
-                    {currentRequest.result} кВт/мес
-                  </p>
+            
+            <ParameterCard
+              temperature={temperature}
+              residents={residents}
+              isDraft={isDraft}
+              onTemperatureChange={isDraft ? setTemperature : undefined}
+              onResidentsChange={isDraft ? setResidents : undefined}
+            />
+            
+            {isDraft && currentRequest && (
+              <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                {(() => {
+                  const hasChanges = 
+                    currentRequest.temperature !== temperature ||
+                    currentRequest.residents !== residents
+                  
+                  return (
+                    <button
+                      onClick={handleSave}
+                      disabled={!hasChanges}
+                      style={{
+                        padding: '10px 20px',
+                        background: hasChanges ? '#0058A3' : '#B8B8B8',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: hasChanges ? 'pointer' : 'not-allowed',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '16px',
+                        fontWeight: 500,
+                      }}
+                    >
+                      Сохранить параметры
+                    </button>
+                  )
+                })()}
+              </div>
+            )}
+            
+            <div className={styles.devicesSection}>
+              <div className={styles.sectionTitle}>
+                Добавленные устройства ({localDevices.length})
+              </div>
+              
+              {localDevices.length === 0 ? (
+                <Alert variant="info">В заявке нет устройств</Alert>
+              ) : (
+                <div className={styles.devicesList}>
+                  {localDevices.map((deviceInRequest) => {
+                    const originalDevice = devices.find((d) => d.device.id === deviceInRequest.device.id)
+                    const hasChanges = originalDevice && originalDevice.quantity !== deviceInRequest.quantity
+                    
+                    return (
+                      <AddedDeviceCard
+                        key={deviceInRequest.device.id}
+                        deviceInRequest={deviceInRequest}
+                        isDraft={isDraft}
+                        hasChanges={hasChanges || false}
+                        isSaving={savingDeviceId === deviceInRequest.device.id}
+                        onQuantityChange={isDraft ? handleQuantityChange : undefined}
+                        onSave={isDraft ? handleSaveDevice : undefined}
+                        onDelete={isDraft ? handleDeleteDevice : undefined}
+                      />
+                    )
+                  })}
                 </div>
               )}
-              {currentRequest.status !== 'COMPLETED' && currentRequest.result > 0 && (
-                <p>
-                  <strong>Результат:</strong> {currentRequest.result} кВт/мес
-                </p>
-              )}
-              {currentRequest.status === 'COMPLETED' && currentRequest.result === 0 && (
-                <p>
-                  <strong>Результат:</strong> Рассчитывается...
-                </p>
-              )}
-              <p>
-                <strong>Дата создания:</strong>{' '}
-                {new Date(currentRequest.creation_datetime).toLocaleString('ru-RU')}
-              </p>
-              {currentRequest.formation_datetime && (
-                <p>
-                  <strong>Дата формирования:</strong>{' '}
-                  {new Date(currentRequest.formation_datetime).toLocaleString('ru-RU')}
-                </p>
-              )}
-              {currentRequest.completion_datetime && (
-                <p>
-                  <strong>Дата завершения:</strong>{' '}
-                  {new Date(currentRequest.completion_datetime).toLocaleString('ru-RU')}
-                </p>
-              )}
             </div>
-          )}
+          </div>
+          
+          <div className={styles.resultsSection}>
+            <div className={styles.sectionTitle}>
+              <div className={styles.titleContent}>Результаты расчета</div>
+            </div>
+            
+            <ResultCard
+              result={currentRequest.result}
+              status={currentRequest.status}
+              isDraft={isDraft}
+              onForm={isDraft ? handleForm : undefined}
+              onDelete={isDraft ? handleDelete : undefined}
+            />
+          </div>
         </div>
-
-        <h2 style={{ marginBottom: '20px' }}>Устройства в заявке</h2>
-
-        {localDevices.length === 0 ? (
-          <Alert variant="info">В заявке нет устройств</Alert>
-        ) : (
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Изображение</th>
-                <th>Название</th>
-                <th>Категория</th>
-                <th>Мощность (Вт)</th>
-                <th>Потребление (кВт/мес)</th>
-                <th>Количество</th>
-                {isDraft && <th>Действия</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {localDevices.map((deviceInRequest) => (
-                <tr key={deviceInRequest.device.id}>
-                  <td>
-                    <img
-                      src={getProxyImageUrl(deviceInRequest.device.image_url)}
-                      alt={deviceInRequest.device.name}
-                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = getDefaultImageUrl()
-                      }}
-                    />
-                  </td>
-                  <td>{deviceInRequest.device.name}</td>
-                  <td>{deviceInRequest.device.category}</td>
-                  <td>{deviceInRequest.device.power}</td>
-                  <td>{deviceInRequest.device.consumption}</td>
-                  <td>
-                    {isDraft ? (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Form.Control
-                          type="number"
-                          value={deviceInRequest.quantity}
-                          onChange={(e) =>
-                            handleQuantityChange(deviceInRequest.device.id, Number(e.target.value))
-                          }
-                          min="1"
-                          style={{ width: '80px' }}
-                        />
-                        {(() => {
-                          const originalDevice = devices.find((d) => d.device.id === deviceInRequest.device.id)
-                          const hasChanges = originalDevice && originalDevice.quantity !== deviceInRequest.quantity
-                          return (
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={() => handleSaveDevice(deviceInRequest.device.id)}
-                              disabled={!hasChanges || savingDeviceId === deviceInRequest.device.id}
-                            >
-                              {savingDeviceId === deviceInRequest.device.id ? (
-                                <>
-                                  <Spinner animation="border" size="sm" style={{ marginRight: '5px' }} />
-                                  Сохранение...
-                                </>
-                              ) : (
-                                'Сохранить'
-                              )}
-                            </Button>
-                          )
-                        })()}
-                      </div>
-                    ) : (
-                      deviceInRequest.quantity
-                    )}
-                  </td>
-                  {isDraft && (
-                    <td>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDeleteDevice(deviceInRequest.device.id)}
-                      >
-                        Удалить
-                      </Button>
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
-      </Container>
+      </div>
     </>
   )
 }
 
 export default RequestDetailPage
-

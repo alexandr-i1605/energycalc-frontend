@@ -1,139 +1,172 @@
-.Cards {
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 12px;
-    width: 100%;
-    max-width: 1280px;
-    padding: 0 10px;
+.card {
+  padding: 15px;
+  background: #F3F3F3;
+  border-radius: 15px;
+  border-left: 3px #00559D solid;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.CardStroke {
-    width: 100%;
-    padding: 5px 0;
-    overflow: hidden;
-    border-bottom: 2px #F5F5F5 solid;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 12px;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 88, 163, 0.2);
 }
 
-.Card {
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 12px;
-    margin-bottom: 15px;
-    padding: 15px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #B8B8B8;
 }
 
-.Card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.cardTitle {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
-.CardHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e9ecef;
+.titleText {
+  color: #0058A3;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
-.CardTitle {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
+.statusBadge {
+  margin-left: 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.TitleText {
-    color: #000;
-    font-size: 18px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    word-wrap: break-word;
-    white-space: normal;
+.statusDraft {
+  background: #6c757d;
+  color: white;
 }
 
-.StatusBadge {
-    margin-left: 10px;
+.statusFormed {
+  background: #0058A3;
+  color: white;
 }
 
-.CardSpecs {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 8px;
+.statusCompleted {
+  background: #28a745;
+  color: white;
 }
 
-.SpecItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
+.statusRejected {
+  background: #dc3545;
+  color: white;
 }
 
-.SpecLabel {
-    color: #666;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
+.cardSpecs {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 8px;
 }
 
-.SpecValue {
-    color: #000;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
+.specItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
 }
 
-.ResultBlock {
-    padding: 15px;
-    background: #d4edda;
-    border: 2px solid #28a745;
-    border-radius: 8px;
-    text-align: center;
+.specLabel {
+  color: black;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
-.ResultLabel {
-    color: #155724;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    margin-bottom: 5px;
+.specValue {
+  color: black;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 }
 
-.ResultValue {
-    color: #155724;
-    font-size: 20px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
+.resultBlock {
+  padding: 15px;
+  background: #0058A3;
+  border-radius: 8px;
+  text-align: center;
 }
 
-.CardFooter {
-    margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px solid #e9ecef;
+.resultLabel {
+  color: #FFF600;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
-.DateText {
-    color: #666;
-    font-size: 12px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    text-align: center;
+.resultValue {
+  color: white;
+  font-size: 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.cardFooter {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #B8B8B8;
+}
+
+.dateText {
+  color: #666;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+.moderatorActions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #B8B8B8;
+}
+
+.actionButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+}
+
+.actionButtonSuccess {
+  background: #28a745;
+  color: white;
+}
+
+.actionButtonSuccess:hover {
+  background: #218838;
+}
+
+.actionButtonDanger {
+  background: #dc3545;
+  color: white;
+}
+
+.actionButtonDanger:hover {
+  background: #c82333;
 }

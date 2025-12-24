@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Container, Spinner, Alert, Form, Row, Col, Button } from 'react-bootstrap'
+import { Spinner, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../store/store'
 import { getRequestsAsync, updateRequestStatusAsync } from '../store/requestSlice'
 import Header from '../components/Header'
-import Breadcrumbs from '../components/Breadcrumbs'
 import RequestCard from '../components/RequestCard'
-import styles from '../styles/RequestCard.module.css'
+import styles from '../styles/RequestsListPage.module.css'
 
 // Функция для получения текущей даты в формате YYYY-MM-DD
 const getCurrentDate = () => {
@@ -40,7 +39,6 @@ const RequestsListPage: React.FC = () => {
     if (statusFilter) filters.status = statusFilter
 
     if (dateStart) {
-
       filters.date_start = `${dateStart}T00:00:00`
     }
     if (dateEnd) {
@@ -56,6 +54,7 @@ const RequestsListPage: React.FC = () => {
     }
     loadRequests()
   }, [dispatch, isAuthenticated, navigate, loadRequests])
+
   useEffect(() => {
     if (!isAuthenticated || !isModerator) return
 
@@ -99,136 +98,133 @@ const RequestsListPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Container>
-        <Breadcrumbs crumbs={[{ label: 'Заявки' }]} />
-        <h1 style={{ marginBottom: '30px' }}>{isModerator ? 'Все заявки' : 'Мои заявки'}</h1>
+      <div className={styles.requestsContainer}>
+        {error && (
+          <Alert variant="danger" style={{ margin: '10px' }}>
+            {error}
+          </Alert>
+        )}
 
-        {/* Форма фильтрации */}
-        <div style={{ marginBottom: '30px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-          <h5 style={{ marginBottom: '20px' }}>Фильтры</h5>
-          <Form>
-            <Row className="mb-3">
-              <Col md={isModerator ? 2 : 3}>
-                <Form.Group>
-                  <Form.Label>Статус</Form.Label>
-                  <Form.Select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                  >
-                    <option value="">Все статусы</option>
-                    <option value="DRAFT">Черновик</option>
-                    <option value="FORMED">Сформирована</option>
-                    <option value="COMPLETED">Завершена</option>
-                    <option value="REJECTED">Отклонена</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
+        <div className={styles.requestsContent}>
+          <div className={styles.sectionTitle}>
+            <div className={styles.titleContent}>
+              {isModerator ? 'Все заявки' : 'Мои заявки'}
+            </div>
+          </div>
+
+          {/* Форма фильтрации */}
+          <div className={styles.filtersCard}>
+            <div className={styles.filtersHeader}>
+              <div className={styles.filtersTitle}>Фильтры</div>
+            </div>
+            
+            <div className={styles.filtersRow}>
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Статус</label>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className={styles.filterInput}
+                >
+                  <option value="">Все статусы</option>
+                  <option value="DRAFT">Черновик</option>
+                  <option value="FORMED">Сформирована</option>
+                  <option value="COMPLETED">Завершена</option>
+                  <option value="REJECTED">Отклонена</option>
+                </select>
+              </div>
+
               {isModerator && (
-                <Col md={2}>
-                  <Form.Group>
-                    <Form.Label>Создатель</Form.Label>
-                    <Form.Select
-                      value={clientFilter}
-                      onChange={(e) => setClientFilter(e.target.value)}
-                    >
-                      <option value="">Все создатели</option>
-                      {uniqueClients.map((client) => (
-                        <option key={client} value={client}>
-                          {client}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
+                <div className={styles.filterGroup}>
+                  <label className={styles.filterLabel}>Создатель</label>
+                  <select
+                    value={clientFilter}
+                    onChange={(e) => setClientFilter(e.target.value)}
+                    className={styles.filterInput}
+                  >
+                    <option value="">Все создатели</option>
+                    {uniqueClients.map((client) => (
+                      <option key={client} value={client}>
+                        {client}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               )}
-              <Col md={isModerator ? 2 : 3}>
-                <Form.Group>
-                  <Form.Label>Дата начала</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={dateStart}
-                    onChange={(e) => setDateStart(e.target.value)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={isModerator ? 2 : 3}>
-                <Form.Group>
-                  <Form.Label>Дата окончания</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={dateEnd}
-                    onChange={(e) => setDateEnd(e.target.value)}
-                    min={dateStart}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={isModerator ? 4 : 3} className="d-flex align-items-end">
-                <Button
-                  variant="outline-secondary"
+
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Дата начала</label>
+                <input
+                  type="date"
+                  value={dateStart}
+                  onChange={(e) => setDateStart(e.target.value)}
+                  className={styles.filterInput}
+                />
+              </div>
+
+              <div className={styles.filterGroup}>
+                <label className={styles.filterLabel}>Дата окончания</label>
+                <input
+                  type="date"
+                  value={dateEnd}
+                  onChange={(e) => setDateEnd(e.target.value)}
+                  min={dateStart}
+                  className={styles.filterInput}
+                />
+              </div>
+
+              <div className={styles.filterGroup}>
+                <button
                   onClick={handleClearFilters}
-                  style={{ width: '100%' }}
+                  className={styles.filterButton}
                 >
                   Сбросить фильтры
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-
-        {error && <Alert variant="danger">{error}</Alert>}
-
-        {loading ? (
-          <div className="text-center">
-            <Spinner animation="border" />
+                </button>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className={styles.Cards}>
-            <div className={styles.CardStroke}>
+
+          {/* Список заявок */}
+          <div className={styles.sectionTitle}>
+            <div className={styles.titleContent}>
+              Заявки ({filteredRequests.length})
+            </div>
+          </div>
+
+          {loading ? (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+              <Spinner animation="border" />
+            </div>
+          ) : (
+            <div className={styles.requestsList}>
               {filteredRequests.length === 0 ? (
-                <Alert variant="info" style={{ width: '100%', marginTop: '20px' }}>
+                <div className={styles.emptyState}>
                   Заявки не найдены
-                </Alert>
+                </div>
               ) : (
                 filteredRequests.map((request) => (
-                  <div key={request.id} style={{ marginBottom: '20px' }}>
-                    <RequestCard
-                      request={request}
-                      onClick={() => handleCardClick(request.id)}
-                    />
-                    {isModerator && request.status === 'FORMED' && (
-                      <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
-                        <Button
-                          variant="success"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleStatusChange(request.id, 'COMPLETED')
-                          }}
-                        >
-                          Одобрить
-                        </Button>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleStatusChange(request.id, 'REJECTED')
-                          }}
-                        >
-                          Отклонить
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                  <RequestCard
+                    key={request.id}
+                    request={request}
+                    onClick={() => handleCardClick(request.id)}
+                    isModerator={isModerator}
+                    onApprove={isModerator && request.status === 'FORMED' 
+                      ? () => handleStatusChange(request.id, 'COMPLETED')
+                      : undefined
+                    }
+                    onReject={isModerator && request.status === 'FORMED'
+                      ? () => handleStatusChange(request.id, 'REJECTED')
+                      : undefined
+                    }
+                  />
                 ))
               )}
             </div>
-          </div>
-        )}
-      </Container>
+          )}
+        </div>
+      </div>
     </>
   )
 }
 
 export default RequestsListPage
-
