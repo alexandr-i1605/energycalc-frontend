@@ -3,6 +3,12 @@ import { dest_img } from '../target_config'
 
 const MINIO_PORT = 9000
 
+const DEFAULT_IMAGE = 'https://avatars.mds.yandex.net/get-ydo/1449941/2a000001745930bb2688b0349ae1db09ae13/diploma'
+
+export function getDefaultImageUrl(): string {
+  return DEFAULT_IMAGE
+}
+
 function isGitHubPages(): boolean {
   if (typeof window === 'undefined') {
     return false
@@ -13,7 +19,7 @@ function isGitHubPages(): boolean {
 
 export function getProxyImageUrl(imageUrl: string | null | undefined): string {
   if (!imageUrl) {
-    return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QpNGD0L3QutC4INCy0LXRgtC+0L3QsDwvdGV4dD48L3N2Zz4='
+    return DEFAULT_IMAGE
   }
 
   if (imageUrl.startsWith('/')) {

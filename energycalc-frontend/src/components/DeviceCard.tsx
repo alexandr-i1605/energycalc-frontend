@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import type { Device } from '../types'
 import { Link } from 'react-router-dom'
 import styles from '../styles/DeviceCard.module.css'
-import { getProxyImageUrl } from '../utils/imageUrl'
+import { getProxyImageUrl, getDefaultImageUrl } from '../utils/imageUrl'
 
 interface DeviceCardProps {
   device: Device
@@ -19,7 +19,7 @@ const DeviceCard: FC<DeviceCardProps> = ({ device, onAddToCalculation, isAuthent
           alt={device.name}
           className={styles.CardImg}
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/default-device.jpg'
+            (e.target as HTMLImageElement).src = getDefaultImageUrl()
           }}
         />
       </div>

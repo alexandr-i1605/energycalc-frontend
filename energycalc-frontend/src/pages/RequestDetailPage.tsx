@@ -15,7 +15,7 @@ import {
 } from '../store/requestSlice'
 import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
-import { getProxyImageUrl } from '../utils/imageUrl'
+import { getProxyImageUrl, getDefaultImageUrl } from '../utils/imageUrl'
 
 const RequestDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -218,7 +218,7 @@ const RequestDetailPage: React.FC = () => {
                 Сохранить
               </Button>
               <Button variant="success" onClick={handleForm} className="me-2">
-                Подтвердить
+                Сформировать
               </Button>
               <Button variant="danger" onClick={handleDelete}>
                 Удалить
@@ -307,8 +307,7 @@ const RequestDetailPage: React.FC = () => {
                       alt={deviceInRequest.device.name}
                       style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7QpNGD0L3QutC4INCy0LXRgtC+0L3QsDwvdGV4dD48L3N2Zz4='
+                        (e.target as HTMLImageElement).src = getDefaultImageUrl()
                       }}
                     />
                   </td>
@@ -332,23 +331,21 @@ const RequestDetailPage: React.FC = () => {
                           const originalDevice = devices.find((d) => d.device.id === deviceInRequest.device.id)
                           const hasChanges = originalDevice && originalDevice.quantity !== deviceInRequest.quantity
                           return (
-                            hasChanges && (
-                              <Button
-                                variant="primary"
-                                size="sm"
-                                onClick={() => handleSaveDevice(deviceInRequest.device.id)}
-                                disabled={savingDeviceId === deviceInRequest.device.id}
-                              >
-                                {savingDeviceId === deviceInRequest.device.id ? (
-                                  <>
-                                    <Spinner animation="border" size="sm" style={{ marginRight: '5px' }} />
-                                    Сохранение...
-                                  </>
-                                ) : (
-                                  'Сохранить'
-                                )}
-                              </Button>
-                            )
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              onClick={() => handleSaveDevice(deviceInRequest.device.id)}
+                              disabled={!hasChanges || savingDeviceId === deviceInRequest.device.id}
+                            >
+                              {savingDeviceId === deviceInRequest.device.id ? (
+                                <>
+                                  <Spinner animation="border" size="sm" style={{ marginRight: '5px' }} />
+                                  Сохранение...
+                                </>
+                              ) : (
+                                'Сохранить'
+                              )}
+                            </Button>
                           )
                         })()}
                       </div>

@@ -7,7 +7,7 @@ import Header from '../components/Header'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { apiClient } from '../api/client'
 import styles from '../styles/DeviceDetail.module.css'
-import { getProxyImageUrl } from '../utils/imageUrl'
+import { getProxyImageUrl, getDefaultImageUrl } from '../utils/imageUrl'
 
 const DeviceDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -77,7 +77,7 @@ const DeviceDetailPage: FC = () => {
                 alt={device.name}
                 className={styles.deviceImage}
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/default-device.jpg'
+                  (e.target as HTMLImageElement).src = getDefaultImageUrl()
                 }}
               />
             </div>

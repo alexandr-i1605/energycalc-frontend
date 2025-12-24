@@ -1,9 +1,8 @@
-import { FC, useEffect } from 'react'
-import { Navbar, Nav, Container, Badge, Button } from 'react-bootstrap'
+import { FC } from 'react'
+import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
-import { getCartInfoAsync } from '../store/requestSlice'
 import { logoutUserAsync } from '../store/userSlice'
 import { clearFilters } from '../store/filterSlice'
 import { getDevicesAsync } from '../store/deviceSlice'
@@ -13,14 +12,7 @@ const Header: FC = () => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
-  const { cartInfo } = useSelector((state: RootState) => state.request)
   const { isAuthenticated, user } = useSelector((state: RootState) => state.user)
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(getCartInfoAsync())
-    }
-  }, [dispatch, isAuthenticated])
 
   const handleLogout = async () => {
     await dispatch(logoutUserAsync())
@@ -45,25 +37,9 @@ const Header: FC = () => {
               Устройства
             </Nav.Link>
             {isAuthenticated && (
-              <>
-                <Nav.Link as={Link} to="/requests" className={styles.navLink}>
-                  Заявки
-                </Nav.Link>
-                {cartInfo.draft_request_id && (
-                  <Nav.Link
-                    as={Link}
-                    to={`/consumption-calculation/${cartInfo.draft_request_id}`}
-                    className={styles.navLink}
-                  >
-                    Расчет{' '}
-                    {cartInfo.devices_count > 0 && (
-                      <Badge bg="primary" className="ms-1">
-                        {cartInfo.devices_count}
-                      </Badge>
-                    )}
-                  </Nav.Link>
-                )}
-              </>
+              <Nav.Link as={Link} to="/requests" className={styles.navLink}>
+                Заявки
+              </Nav.Link>
             )}
           </Nav>
           <Nav>
