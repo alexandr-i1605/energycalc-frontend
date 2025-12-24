@@ -127,17 +127,159 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1400px) {
   .requestsContent {
-    padding: 10px;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .requestsContent {
+    padding: 15px;
+  }
+  
+  .filtersRow {
+    gap: 12px;
+  }
+  
+  .filterGroup {
+    min-width: 140px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sectionTitle {
+    font-size: 20px;
+  }
+  
+  .titleContent {
+    font-size: 22px;
+  }
+  
+  .filtersCard {
+    padding: 12px;
+  }
+  
+  .filtersTitle {
+    font-size: 18px;
+  }
+  
+  .filtersRow {
+    gap: 10px;
+  }
+  
+  .filterGroup {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .requestsContainer {
+    min-height: auto;
+  }
+  
+  .requestsContent {
+    padding: 15px 10px;
+    margin: 0;
+    gap: 15px;
+  }
+  
+  .sectionTitle {
+    font-size: 18px;
+    padding: 3px 0;
+  }
+  
+  .titleContent {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+  
+  .filtersCard {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .filtersTitle {
+    font-size: 16px;
   }
   
   .filtersRow {
     flex-direction: column;
+    gap: 12px;
   }
   
   .filterGroup {
     width: 100%;
+    min-width: auto;
+  }
+  
+  .filterInput {
+    font-size: 14px;
+  }
+  
+  .filterButton {
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .requestsList {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .requestsContent {
+    padding: 10px 8px;
+    gap: 12px;
+  }
+  
+  .sectionTitle {
+    font-size: 16px;
+    padding: 2px 0;
+  }
+  
+  .titleContent {
+    font-size: 18px;
+    padding: 0 8px;
+  }
+  
+  .filtersCard {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .filtersHeader {
+    padding: 0 8px;
+  }
+  
+  .filtersTitle {
+    font-size: 14px;
+  }
+  
+  .filterLabel {
+    font-size: 12px;
+  }
+  
+  .filterInput {
+    height: 32px;
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+  
+  .filterButton {
+    height: 32px;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  .requestsList {
+    gap: 10px;
+  }
+  
+  .emptyState {
+    padding: 20px 10px;
+    font-size: 14px;
   }
 }
 

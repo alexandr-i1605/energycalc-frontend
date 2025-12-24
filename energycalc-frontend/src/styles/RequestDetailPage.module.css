@@ -61,15 +61,113 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1400px) {
+  .calculationContent {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .calculationContent {
+    gap: 12px;
+  }
+  
+  .mainSection {
+    flex: 1.5;
+  }
+  
+  .resultsSection {
+    flex: 1;
+  }
+}
+
 @media (max-width: 1024px) {
   .calculationContent {
     flex-direction: column;
+    gap: 20px;
+  }
+  
+  .mainSection,
+  .resultsSection {
+    width: 100%;
+    flex: none;
+  }
+  
+  .sectionTitle {
+    font-size: 20px;
+  }
+  
+  .titleContent {
+    font-size: 22px;
+  }
+  
+  .devicesSection {
+    gap: 12px;
   }
 }
 
 @media (max-width: 768px) {
+  .calculationContainer {
+    min-height: auto;
+  }
+  
   .calculationContent {
-    padding: 10px;
+    padding: 15px 10px;
+    margin: 0;
+    gap: 15px;
+  }
+  
+  .sectionTitle {
+    font-size: 18px;
+    padding: 3px 0;
+  }
+  
+  .titleContent {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+  
+  .mainSection,
+  .resultsSection {
+    gap: 12px;
+  }
+  
+  .devicesSection {
+    gap: 10px;
+  }
+  
+  .devicesList {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calculationContent {
+    padding: 10px 8px;
+    gap: 12px;
+  }
+  
+  .sectionTitle {
+    font-size: 16px;
+    padding: 2px 0;
+  }
+  
+  .titleContent {
+    font-size: 18px;
+    padding: 0 8px;
+  }
+  
+  .mainSection,
+  .resultsSection {
+    gap: 10px;
+  }
+  
+  .devicesSection {
+    gap: 8px;
+  }
+  
+  .devicesList {
+    gap: 8px;
   }
 }
 

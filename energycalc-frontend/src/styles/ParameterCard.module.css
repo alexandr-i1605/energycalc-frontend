@@ -75,3 +75,67 @@
   border-color: #0058A3;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .parametersCard {
+    padding: 8px;
+    gap: 12px;
+  }
+  
+  .cardHeader {
+    padding: 0 10px;
+  }
+  
+  .headerTitle {
+    font-size: 18px;
+  }
+  
+  .parameterGroup {
+    padding: 2px 10px;
+  }
+  
+  .parameterLabel {
+    font-size: 14px;
+  }
+  
+  .inputField,
+  .inputFieldEditable {
+    padding: 4px 15px;
+    font-size: 14px;
+  }
+  
+  .parameterHint {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .parametersCard {
+    padding: 6px;
+    gap: 10px;
+  }
+  
+  .headerTitle {
+    font-size: 16px;
+  }
+  
+  .parameterLabel {
+    font-size: 13px;
+  }
+  
+  .inputField,
+  .inputFieldEditable {
+    padding: 4px 12px;
+    font-size: 13px;
+    height: 32px;
+  }
+  
+  .parameterInput {
+    height: 32px;
+  }
+  
+  .parameterHint {
+    font-size: 10px;
+  }
+}
+

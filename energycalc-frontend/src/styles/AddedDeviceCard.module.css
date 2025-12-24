@@ -5,7 +5,8 @@
   border-left: 3px #00559D solid;
   display: flex;
   align-items: center;
-  gap: 110px;
+  gap: 20px;
+  position: relative;
 }
 
 .deviceImage {
@@ -24,11 +25,11 @@
 }
 
 .deviceInfo {
-  width: 400px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex-shrink: 0;
+  min-width: 0;
 }
 
 .deviceName {
@@ -72,27 +73,35 @@
 }
 
 .deviceQuantity {
-  width: 155px;
-  height: 46px;
-  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  height: 100%;
+  min-height: 136px;
+}
+
+.quantityInputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.quantityInputWrapper .inputField {
+  width: 60px;
+  height: 36px;
+  text-align: center;
+}
+
+.buttonsWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.quantityControls {
-  width: 135px;
-  padding: 10px;
-  display: flex;
+  gap: 8px;
+  align-items: flex-end;
   justify-content: center;
-  align-items: center;
-  gap: 5px;
-}
-
-.quantityDisplay {
-  width: 50px;
+  height: 100%;
 }
 
 .inputField {
@@ -114,7 +123,7 @@
 }
 
 .saveButton {
-  padding: 5px 15px;
+  padding: 8px 16px;
   background: #0058A3;
   border: none;
   border-radius: 6px;
@@ -124,6 +133,7 @@
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+  min-width: 100px;
 }
 
 .saveButton:hover:not(:disabled) {
@@ -136,7 +146,7 @@
 }
 
 .deleteButton {
-  padding: 5px 15px;
+  padding: 8px 16px;
   background: #dc3545;
   border: none;
   border-radius: 6px;
@@ -146,41 +156,58 @@
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+  min-width: 100px;
 }
 
 .deleteButton:hover {
   background: #c82333;
 }
 
-.quantityWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.quantityInputWrapper {
+.quantityDisplay {
   display: flex;
   align-items: center;
-  gap: 8px;
-  width: 100%;
   justify-content: center;
+  height: 100%;
 }
 
-.buttonsWrapper {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  justify-content: center;
+.quantityDisplay .inputField {
+  width: 60px;
+  height: 36px;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .deviceCard {
+    gap: 15px;
+  }
+  
+  .deviceImage {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .deviceQuantity {
+    min-height: 120px;
+  }
+  
+  .specItem {
+    width: 180px;
+  }
+}
+
 @media (max-width: 1024px) {
   .deviceCard {
     flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .deviceImage {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    aspect-ratio: 1;
+    align-self: center;
   }
   
   .deviceInfo {
@@ -188,11 +215,126 @@
   }
   
   .deviceSpecsGrid {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .specItem {
+    width: calc(50% - 5px);
+  }
+  
+  .deviceQuantity {
+    width: 100%;
+    min-height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #B8B8B8;
+  }
+  
+  .quantityInputWrapper {
+    flex: 1;
+    justify-content: flex-start;
+  }
+  
+  .buttonsWrapper {
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .saveButton,
+  .deleteButton {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .deviceCard {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .deviceImage {
+    max-width: 150px;
+  }
+  
+  .deviceName {
+    font-size: 18px;
+  }
+  
+  .deviceSpecsGrid {
     flex-direction: column;
+    gap: 8px;
   }
   
   .specItem {
     width: 100%;
   }
+  
+  .deviceQuantity {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    padding: 15px 0;
+  }
+  
+  .quantityInputWrapper {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .quantityInputWrapper .inputField {
+    width: 100px;
+  }
+  
+  .buttonsWrapper {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .saveButton,
+  .deleteButton {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
+@media (max-width: 480px) {
+  .deviceCard {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .deviceImage {
+    max-width: 120px;
+  }
+  
+  .deviceName {
+    font-size: 16px;
+  }
+  
+  .specLabel,
+  .specValue {
+    font-size: 11px;
+  }
+  
+  .deviceQuantity {
+    padding: 12px 0;
+    gap: 10px;
+  }
+  
+  .quantityInputWrapper .inputField {
+    width: 80px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .saveButton,
+  .deleteButton {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}

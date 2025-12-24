@@ -170,3 +170,119 @@
 .actionButtonDanger:hover {
   background: #c82333;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .titleText {
+    font-size: 18px;
+  }
+  
+  .statusBadge {
+    padding: 3px 10px;
+    font-size: 11px;
+    margin-left: 8px;
+  }
+  
+  .specLabel,
+  .specValue {
+    font-size: 13px;
+  }
+  
+  .resultBlock {
+    padding: 12px;
+  }
+  
+  .resultLabel {
+    font-size: 13px;
+  }
+  
+  .resultValue {
+    font-size: 20px;
+  }
+  
+  .dateText {
+    font-size: 11px;
+  }
+  
+  .moderatorActions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .actionButton {
+    width: 100%;
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .titleText {
+    font-size: 16px;
+  }
+  
+  .statusBadge {
+    padding: 2px 8px;
+    font-size: 10px;
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .specItem {
+    padding: 4px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  
+  .specLabel,
+  .specValue {
+    font-size: 12px;
+  }
+  
+  .resultBlock {
+    padding: 10px;
+  }
+  
+  .resultLabel {
+    font-size: 12px;
+  }
+  
+  .resultValue {
+    font-size: 18px;
+  }
+  
+  .cardFooter {
+    padding-top: 8px;
+  }
+  
+  .dateText {
+    font-size: 10px;
+  }
+  
+  .moderatorActions {
+    gap: 6px;
+    padding-top: 8px;
+  }
+  
+  .actionButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

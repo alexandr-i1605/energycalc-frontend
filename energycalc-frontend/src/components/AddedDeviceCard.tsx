@@ -61,54 +61,52 @@ const AddedDeviceCard: React.FC<AddedDeviceCardProps> = ({
         </div>
       </div>
       <div className={styles.deviceQuantity}>
-        <div className={styles.quantityControls}>
-          {isDraft ? (
-            <div className={styles.quantityWrapper}>
-              <div className={styles.quantityInputWrapper}>
-                <input
-                  type="number"
-                  value={deviceInRequest.quantity}
-                  onChange={(e) => {
-                    const value = Number(e.target.value)
-                    if (value >= 1 && onQuantityChange) {
-                      onQuantityChange(device.id, value)
-                    }
-                  }}
-                  className={styles.inputField}
-                  min="1"
-                />
-              </div>
-              <div className={styles.buttonsWrapper}>
-                {onSave && (
-                  <button
-                    className={styles.saveButton}
-                    onClick={() => onSave(device.id)}
-                    disabled={!hasChanges || isSaving}
-                  >
-                    {isSaving ? 'Сохранение...' : 'Сохранить'}
-                  </button>
-                )}
-                {onDelete && (
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => onDelete(device.id)}
-                  >
-                    Удалить
-                  </button>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className={styles.quantityDisplay}>
+        {isDraft ? (
+          <>
+            <div className={styles.quantityInputWrapper}>
               <input
-                type="text"
+                type="number"
                 value={deviceInRequest.quantity}
+                onChange={(e) => {
+                  const value = Number(e.target.value)
+                  if (value >= 1 && onQuantityChange) {
+                    onQuantityChange(device.id, value)
+                  }
+                }}
                 className={styles.inputField}
-                readOnly
+                min="1"
               />
             </div>
-          )}
-        </div>
+            <div className={styles.buttonsWrapper}>
+              {onSave && (
+                <button
+                  className={styles.saveButton}
+                  onClick={() => onSave(device.id)}
+                  disabled={!hasChanges || isSaving}
+                >
+                  {isSaving ? 'Сохранение...' : 'Сохранить'}
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => onDelete(device.id)}
+                >
+                  Удалить
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className={styles.quantityDisplay}>
+            <input
+              type="text"
+              value={deviceInRequest.quantity}
+              className={styles.inputField}
+              readOnly
+            />
+          </div>
+        )}
       </div>
     </div>
   )
