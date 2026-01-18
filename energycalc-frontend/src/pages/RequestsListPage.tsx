@@ -86,7 +86,6 @@ const RequestsListPage: React.FC = () => {
       await dispatch(updateRequestStatusAsync({ requestId, newStatus })).unwrap()
       loadRequests()
     } catch (error) {
-      console.error('Error updating request status:', error)
     }
   }
 

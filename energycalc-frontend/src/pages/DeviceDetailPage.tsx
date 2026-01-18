@@ -25,7 +25,6 @@ const DeviceDetailPage: FC = () => {
         setDevice(deviceData)
       } catch (err) {
         setError('Ошибка при загрузке устройства')
-        console.error(err)
       } finally {
         setLoading(false)
       }

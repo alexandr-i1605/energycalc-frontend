@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { apiClient, UpdateRequestData, UpdateDeviceInRequestData } from '../api/api-client'
+import { apiClient, UpdateRequestData, UpdateDeviceInRequestData } from '../api/client'
 import { CalculationRequest, DeviceInRequest, RequestDetailResponse, CartInfo } from '../types'
 import { logoutUserAsync } from './userSlice'
 
@@ -248,6 +248,9 @@ const requestSlice = createSlice({
         if (state.currentRequest && state.currentRequest.id === action.payload.id) {
           state.currentRequest = action.payload
           state.isDraft = false
+        }
+        if (state.cartInfo.draft_request_id === action.payload.id) {
+          state.cartInfo = { draft_request_id: null, devices_count: 0 }
         }
       })
       // Удаление заявки

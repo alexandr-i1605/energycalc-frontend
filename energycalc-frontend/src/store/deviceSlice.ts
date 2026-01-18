@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { apiClient } from '../api/api-client'
+import { apiClient } from '../api/client'
 import { Device } from '../types'
 
 interface DeviceState {

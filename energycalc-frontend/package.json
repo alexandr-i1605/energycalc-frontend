@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
+    "deploy:clean": "node scripts/deploy-ghpages.js",
     "tauri": "tauri",
     "generate-api": "node scripts/generate-api.mjs"
   },
